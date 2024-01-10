@@ -12,6 +12,7 @@ model Profile {
   id        String    @id @default(uuid())
   userId    String    @unique
   name      String
+  email     String    @db.Text
   imageUrl  String    @db.Text
   servers   Server[]
   members   Member[]
