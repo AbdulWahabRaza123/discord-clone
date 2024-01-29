@@ -7,6 +7,9 @@ import { ServerHeader } from "./server-header";
 import { ScrollArea } from "../ui/scroll-area";
 import { ServerSearch } from "./server-search";
 import { Hash, Mic, ShieldAlert, ShieldCheck, Video } from "lucide-react";
+import { Separator } from "../ui/separator";
+import ServerSection from "./server-section";
+import ServerChannel from "./server-channel";
 interface ServerSidebarProps {
   serverId: string;
 }
@@ -66,6 +69,7 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
   const role = server.members.find(
     (member) => member.profileId === profile.id
   )?.role;
+
   return (
     <>
       <div className="flex flex-col h-full text-primary ww-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
@@ -113,6 +117,31 @@ export const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
               ]}
             />
           </div>
+          <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
+          {!!textChannels?.length && (
+            <>
+              <div className="mb-2">
+                <ServerSection
+                  sectionType="channels"
+                  channelType={ChannelType.TEXT}
+                  role={role}
+                  label="Text Channel"
+                />
+                {textChannels.map((channel) => {
+                  return (
+                    <>
+                      <ServerChannel
+                        key={channel.id}
+                        channel={channel}
+                        role={role}
+                        server={server}
+                      />
+                    </>
+                  );
+                })}
+              </div>
+            </>
+          )}
         </ScrollArea>
       </div>
     </>
